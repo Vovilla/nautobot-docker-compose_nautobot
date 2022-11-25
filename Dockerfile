@@ -12,7 +12,7 @@ RUN echo "Acquire::http::Pipeline-Depth 0;" > /etc/apt/apt.conf.d/99fixbadproxy
 RUN echo "Acquire::http::No-Cache true;" >> /etc/apt/apt.conf.d/99fixbadproxy
 RUN echo "Acquire::BrokenProxy true;" >> /etc/apt/apt.conf.d/99fixbadproxy
 
-RUN apt-get update -y
+RUN http_proxy=http://192.168.104.66:3129/  apt-get update -y
 
 # RUN apt-get update -y && apt-get install -y libldap2-dev libsasl2-dev libssl-dev
 
@@ -25,9 +25,9 @@ RUN apt-get update -y
 # ---------------------------------
 FROM base as builder
 
-RUN http_proxy=http://192.168.104.66:3129/ apt-get update
+# RUN http_proxy=http://192.168.104.66:3129/ apt-get update
 
-RUN apt-get install -y gcc && \
+RUN http_proxy=http://192.168.104.66:3129/ apt-get install -y gcc && \
     apt-get autoremove -y && \
     apt-get clean all && \
     rm -rf /var/lib/apt/lists/*
